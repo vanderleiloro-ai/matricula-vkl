@@ -69,8 +69,8 @@ def calcular_categoria(nascimento):
 # --- TOPO DO FORMULÁRIO ---
 # DICA: Se a imagem não abrir, você pode hospedar ela no seu próprio site e colar o link aqui.
 st.image("https://vklassociacao.com.br/images/logo.png", width=200)
-st.title("⚽ Formulário de Matrícula Oficial")
-st.markdown("<p style='color: #666;'>Associação VKL - Excelência no Futebol</p>", unsafe_allow_html=True)
+st.title("⚽ Formulário de Cadastro para Matrícula")
+st.markdown("<p style='color: #666;'>Associação VKL - Escola de Futebol</p>", unsafe_allow_html=True)
 
 with st.form("form_vkl_v3"):
     
@@ -123,8 +123,8 @@ with st.form("form_vkl_v3"):
     st.markdown('<div class="section-header">📋 5. SAÚDE E TERMOS</div>', unsafe_allow_html=True)
     saude_obs = st.text_area("O aluno possui alguma alergia ou restrição médica? (Opcional)")
     
-    aceite_imagem = st.checkbox("Autorizo obrigatoriamente o uso de imagem do aluno para fins de divulgação da VKL.*")
-    aceite_saude = st.checkbox("Declaro obrigatoriamente que o aluno está apto para a prática de esportes.*")
+    aceite_imagem = st.checkbox("Autorizo o uso de imagem do aluno para fins de divulgação da VKL.*")
+    aceite_saude = st.checkbox("Declaro que o aluno está apto para a prática de esportes.*")
 
     # BOTÃO FINAL
     st.markdown("<br>", unsafe_allow_html=True)
