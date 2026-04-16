@@ -152,6 +152,22 @@ st.markdown(f'<div class="cat-box">CATEGORIA SUGERIDA: {categoria_atual}</div>',
 
 # --- FORMULÁRIO ---
 with st.form("form_vkl_final_v42"):
+    # --- NOVO: IDENTIFICAÇÃO ÚNICA (LOGIN E SENHA) ---
+    st.markdown('<div class="section-header">🔑 1. ACESSO DO ALUNO (INDIVIDUAL)</div>', unsafe_allow_html=True)
+    st.info("Para pais com mais de um filho, utilize um Login diferente para cada atleta.")
+    
+    col_login, col_senha = st.columns(2)
+    with col_login:
+        login_usuario = st.text_input("Crie um Nome de Usuário (Login)*", 
+                                     placeholder="Ex: joao.silva",
+                                     help="Não utilize espaços ou acentos.")
+    with col_senha:
+        senha_usuario = st.text_input("Crie uma Senha*", 
+                                     type="password",
+                                     placeholder="Mínimo 6 caracteres")
+
+    # --- ABAIXO SEGUE O RESTANTE DO SEU CÓDIGO (DATA DE NASCIMENTO, ETC) ---
+    st.markdown('<div class="section-header">📅 2. INFORME A DATA DE NASCIMENTO</div>', unsafe_allow_html=True)
     st.markdown('<div class="section-header">📍 2. UNIDADE E ORIGEM</div>', unsafe_allow_html=True)
     unidade = st.selectbox("Selecione a Unidade (Polo)*", ["Guaratuba", "Garuva", "Itapoá"])
     origem = st.selectbox("Como conheceu a nossa escola?", ["Indicação", "Facebook", "Instagram", "Pesquisa na Web", "Outros"])
