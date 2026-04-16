@@ -68,7 +68,7 @@ def calcular_categoria(nascimento):
 
 # --- TOPO DO FORMULÁRIO ---
 # DICA: Se a imagem não abrir, você pode hospedar ela no seu próprio site e colar o link aqui.
-st.image("https://vklassociacao.com.br/images/logo.png", width=200)
+st.image("https://www.vklassociacao.com.br/images/EscolaDeFutebol/Escola_de_Futebol.jpeg", width=200)
 st.title("⚽ Formulário de Cadastro para Matrícula")
 st.markdown("<p style='color: #666;'>Associação VKL - Escola de Futebol</p>", unsafe_allow_html=True)
 
