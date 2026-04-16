@@ -89,7 +89,8 @@ st.markdown(f"""
         border: 1px solid #FFD700 !important;
     }}
 
-    div.stButton > button {{
+    /* BOTÃO ENVIAR - ATUALIZADO COM SELETOR DE TESTID PARA FUNCIONAR O HOVER */
+    div[data-testid="stFormSubmitButton"] > button {{
         width: 100% !important;
         background: linear-gradient(135deg, #003366 0%, #004a99 100%) !important;
         color: #FFD700 !important;
@@ -98,31 +99,34 @@ st.markdown(f"""
         font-weight: bold !important;
         border: 2px solid #FFD700 !important;
         border-radius: 12px !important;
-        transition: 0.3s !important;
+        transition: 0.3s ease !important;
     }}
 
-    div.stButton > button:hover {{
+    div[data-testid="stFormSubmitButton"] > button:hover {{
         background: #FFD700 !important;
         color: #003366 !important;
         border: 2px solid #003366 !important;
+        box-shadow: 0px 4px 12px rgba(0,0,0,0.2) !important;
     }}
 
-    /* Estilo para o link de voltar que parece um botão */
+    /* Botão de Voltar para a mesma aba */
     .btn-voltar {{
         display: inline-block;
-        padding: 10px 20px;
+        padding: 12px 25px;
         background-color: #003366;
         color: #FFD700 !important;
         text-decoration: none;
         border-radius: 8px;
         font-weight: bold;
         text-align: center;
-        margin-top: 15px;
-        border: 1px solid #FFD700;
+        margin-top: 20px;
+        border: 2px solid #FFD700;
+        transition: 0.3s;
     }}
     .btn-voltar:hover {{
         background-color: #FFD700;
         color: #003366 !important;
+        border: 2px solid #003366;
     }}
 
     label {{ color: #003366 !important; font-weight: bold !important; }}
@@ -147,7 +151,7 @@ categoria_atual = calcular_categoria(nasc_aluno)
 st.markdown(f'<div class="cat-box">CATEGORIA SUGERIDA: {categoria_atual}</div>', unsafe_allow_html=True)
 
 # --- FORMULÁRIO ---
-with st.form("form_vkl_final"):
+with st.form("form_vkl_final_v42"):
     st.markdown('<div class="section-header">📍 2. UNIDADE E ORIGEM</div>', unsafe_allow_html=True)
     unidade = st.selectbox("Selecione a Unidade (Polo)*", ["Guaratuba", "Garuva", "Itapoá"])
     origem = st.selectbox("Como conheceu a nossa escola?", ["Indicação", "Facebook", "Instagram", "Pesquisa na Web", "Outros"])
@@ -194,14 +198,14 @@ with st.form("form_vkl_final"):
         if erros:
             for e in erros: st.error(f"❌ {e}")
         else:
-            st.success(f"✅ Sucesso! Inscrição de {nome_aluno} enviada. Bem-vindos à família VKL!")
+            st.success(f"✅ Sucesso! Inscrição de {nome_aluno} enviada.")
             st.balloons()
             
-            # BOTÃO DE RETORNO APÓS O SUCESSO
+            # BOTÃO DE RETORNO (USA TARGET _SELF PARA FECHAR O FORM E ABRIR O SITE NA MESMA ABA)
             st.markdown("""
                 <div style='text-align: center;'>
-                    <a href='https://www.vklassociacao.com.br' class='btn-voltar'>
-                        🏠 Voltar para a Página Principal da VKL
+                    <a href='https://www.vklassociacao.com.br' target='_self' class='btn-voltar'>
+                        🏠 Voltar para a Home VKL
                     </a>
                 </div>
             """, unsafe_allow_html=True)
