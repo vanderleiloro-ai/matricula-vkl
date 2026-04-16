@@ -30,14 +30,14 @@ st.markdown(f"""
         margin-bottom: 25px;
     }}
     .title-box {{
-        background-color: #FFFFFF;
+        background-color: #003366 ;
         padding: 15px 25px;
         border-radius: 8px;
         border-bottom: 4px solid #FFD700;
         flex-grow: 1;
     }}
     .header-title {{
-        color: #FFD700;
+        color: #FFFFFF;
         font-family: 'Arial Black', sans-serif;
         font-size: 24px;
         margin: 0;
