@@ -7,7 +7,7 @@ import base64
 # Configuração da Página
 st.set_page_config(page_title="Matrícula VKL", page_icon="⚽", layout="centered")
 
-# --- FUNÇÃO PARA CARREGAR IMAGEM DE FUNDO ---
+# --- FUNÇÃO PARA CARREGAR IMAGEM DE FUNDO (BASE64) ---
 def get_base64_img(url):
     try:
         response = requests.get(url)
@@ -15,8 +15,9 @@ def get_base64_img(url):
     except:
         return None
 
-url_logo = "https://www.vklassociacao.com.br/images/logo.png"
-bin_str = get_base64_img(url_logo)
+# NOVO ENDEREÇO DA LOGO DE FUNDO
+url_fundo = "https://www.vklassociacao.com.br/images/site/vkl.png"
+bin_str = get_base64_img(url_fundo)
 
 # --- FUNÇÕES DE VALIDAÇÃO ---
 def validar_telefone(telefone):
@@ -50,7 +51,7 @@ if bin_str:
         background: linear-gradient(rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.88)), 
                     url("data:image/png;base64,{bin_str}");
         background-repeat: repeat !important;
-        background-size: 160px !important;
+        background-size: 100px !important; 
         background-attachment: fixed;
     """
 else:
@@ -62,76 +63,68 @@ st.markdown(f"""
         {bg_style}
     }}
     
-    /* Cabeçalhos de Seção */
     .section-header {{
         background-color: #003366;
         color: #ffffff;
         padding: 12px 15px;
         border-radius: 8px;
         font-weight: bold;
-        margin-top: 25px;
-        margin-bottom: 12px;
+        margin-top: 20px;
+        margin-bottom: 10px;
         border-left: 6px solid #FFD700;
-        font-size: 19px;
+        font-size: 18px;
     }}
 
-    /* Caixa da Categoria Sugerida */
     .cat-box {{
         background-color: #FFD700;
         color: #003366;
-        padding: 18px;
-        border-radius: 12px;
+        padding: 15px;
+        border-radius: 10px;
         text-align: center;
         font-weight: bold;
-        font-size: 24px;
+        font-size: 22px;
         border: 2px solid #003366;
-        margin-bottom: 25px;
-        box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
     }}
 
-    /* INPUTS EM TOM DOURADO CLARO */
+    /* Inputs Dourados */
     .stTextInput>div>div>input, .stSelectbox>div>div>div, .stTextArea>div>div>textarea {{
-        background-color: #fff9e6 !important; /* Dourado bem claro */
+        background-color: #fff9e6 !important;
         color: #003366 !important;
         border: 1px solid #FFD700 !important;
-        border-radius: 8px !important;
     }}
 
-    /* BOTÃO ENVIAR COM EFEITO HOVER */
-    .stButton>button {{
-        width: 100%;
+    /* BOTÃO ENVIAR - CSS REFORÇADO */
+    div.stButton > button {{
+        width: 100% !important;
         background: linear-gradient(135deg, #003366 0%, #004a99 100%) !important;
         color: #FFD700 !important;
-        height: 55px;
-        font-size: 22px;
-        font-weight: bold;
+        height: 55px !important;
+        font-size: 22px !important;
+        font-weight: bold !important;
         border: 2px solid #FFD700 !important;
-        border-radius: 12px;
-        transition: all 0.3s ease-in-out !important; /* Suaviza a transição */
-        cursor: pointer !important;
+        border-radius: 12px !important;
+        transition: 0.3s !important;
     }}
 
-    /* O TRUQUE PARA O HOVER FUNCIONAR */
-    .stButton>button:hover {{
-        background: #FFD700 !important; /* Inverte: fundo dourado */
-        color: #003366 !important; /* Texto azul */
+    div.stButton > button:hover {{
+        background: #FFD700 !important;
+        color: #003366 !important;
         border: 2px solid #003366 !important;
-        transform: translateY(-2px); /* Efeito de levante */
-        box-shadow: 0px 5px 15px rgba(0,0,0,0.2) !important;
     }}
 
     label {{ color: #003366 !important; font-weight: bold !important; }}
     </style>
     """, unsafe_allow_html=True)
 
-# --- CONTEÚDO ---
-col_logo1, col_logo2, col_logo3 = st.columns([1, 2, 1])
-with col_logo2:
-    st.image("https://www.vklassociacao.com.br/images/EscolaDeFutebol/Escola_de_Futebol.jpeg", use_column_width=True)
+# --- CABEÇALHO (IMAGEM REDUZIDA PELA METADE) ---
+c_logo1, c_logo2, c_logo3 = st.columns([1.5, 2, 1.5])
+with c_logo2:
+    # Reduzindo o tamanho da imagem da escola no topo
+    st.image("https://www.vklassociacao.com.br/images/EscolaDeFutebol/Escola_de_Futebol.jpeg", width=300)
 
-st.title("⚽ Cadastro para Matrícula")
+st.markdown("<h1 style='text-align: center; color: #003366;'>⚽ Cadastro para Matrícula</h1>", unsafe_allow_html=True)
 
-# --- ETAPA 1: DATA (DINÂMICO) ---
+# --- DATA E CATEGORIA ---
 st.markdown('<div class="section-header">📅 1. INFORME A DATA DE NASCIMENTO</div>', unsafe_allow_html=True)
 nasc_aluno = st.date_input("Data de Nascimento do Aluno*", 
                            value=date(2015, 1, 1),
@@ -141,8 +134,8 @@ nasc_aluno = st.date_input("Data de Nascimento do Aluno*",
 categoria_atual = calcular_categoria(nasc_aluno)
 st.markdown(f'<div class="cat-box">CATEGORIA SUGERIDA: {categoria_atual}</div>', unsafe_allow_html=True)
 
-# --- ETAPA 2: FORMULÁRIO ---
-with st.form("form_vkl_final"):
+# --- FORMULÁRIO ---
+with st.form("form_vkl_v4"):
     
     st.markdown('<div class="section-header">📍 2. UNIDADE E ORIGEM</div>', unsafe_allow_html=True)
     col_u1, col_u2 = st.columns(2)
@@ -198,5 +191,5 @@ with st.form("form_vkl_final"):
         if erros:
             for e in erros: st.error(f"❌ {e}")
         else:
-            st.success(f"✅ Sucesso! {nome_aluno} foi pré-inscrito na categoria {categoria_atual}. Bem-vindos à família VKL!")
+            st.success(f"✅ Sucesso! Inscrição enviada. Bem-vindos à família VKL!")
             st.balloons()
