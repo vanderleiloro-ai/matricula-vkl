@@ -33,7 +33,7 @@ def calcular_categoria(nascimento):
 
 # LOGO (Puxando do seu site oficial)
 st.image("https://www.vklassociacao.com.br/images/logo.png", width=180)
-st.title("Formulário Oficial de Matrícula")
+st.title("Formulário de Cadastro para Matrícula")
 st.write("Preencha os dados com atenção para efetivar a pré-inscrição do atleta.")
 
 with st.form("form_vkl_completo"):
@@ -62,7 +62,7 @@ with st.form("form_vkl_completo"):
     with c3:
         posicao = st.selectbox("Posição", ["A definir", "Goleiro", "Fixo/Zagueiro", "Ala", "Pivô/Atacante"])
     
-    st.info(f"Categoria Automática: **{calcular_categoria(nasc_aluno)}**")
+    st.info(f"Categoria Sugerida: **{calcular_categoria(nasc_aluno)}**")
 
     st.divider()
 
@@ -96,8 +96,8 @@ with st.form("form_vkl_completo"):
     saude_obs = st.text_area("O aluno possui alguma alergia ou restrição médica? (Opcional)")
     
     st.warning("Para prosseguir, é necessário aceitar os termos abaixo:")
-    aceite_imagem = st.checkbox("Autorizo obrigatoriamente o uso de imagem do aluno para fins de divulgação da VKL.*")
-    aceite_saude = st.checkbox("Declaro obrigatoriamente que o aluno está apto para a prática de esportes.*")
+    aceite_imagem = st.checkbox("Autorizo o uso de imagem do aluno para fins de divulgação do VKL.*")
+    aceite_saude = st.checkbox("Declaro que o aluno está apto para a prática de esportes.*")
 
     # BOTÃO FINAL
     enviar = st.form_submit_button("ENVIAR CADASTRO PARA ANÁLISE")
