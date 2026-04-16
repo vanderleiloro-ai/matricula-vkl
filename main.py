@@ -50,7 +50,7 @@ if bin_str:
         background: linear-gradient(rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.88)), 
                     url("data:image/png;base64,{bin_str}");
         background-repeat: repeat !important;
-        background-size: 100px !important; 
+        background-size: 500px !important; 
         background-attachment: fixed;
     """
 else:
