@@ -110,9 +110,9 @@ with st.form("form_vkl_v3_4"):
     with c1:
         # Definindo um valor padrão mais antigo para forçar o recálculo
         nasc_aluno = st.date_input("Data de Nascimento*", 
-                                   value=date(2015, 1, 1),
+                                   value=date(0000, 0, 0),
                                    format="DD/MM/YYYY", 
-                                   min_value=date(2005, 1, 1))
+                                   min_value=date(1900, 1, 1))
     with c2:
         genero = st.selectbox("Gênero", ["Masculino", "Feminino"])
     with c3:
