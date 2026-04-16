@@ -15,7 +15,6 @@ def get_base64_img(url):
     except:
         return None
 
-# NOVO ENDEREÇO DA LOGO DE FUNDO
 url_fundo = "https://www.vklassociacao.com.br/images/site/vkl.png"
 bin_str = get_base64_img(url_fundo)
 
@@ -45,13 +44,13 @@ def calcular_categoria(nascimento):
     elif idade_referencia <= 15: return "Sub-15"
     else: return "Sub-17 / Adulto"
 
-# --- ESTILIZAÇÃO CUSTOMIZADA ---
+# --- ESTILIZAÇÃO ---
 if bin_str:
     bg_style = f"""
         background: linear-gradient(rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.88)), 
                     url("data:image/png;base64,{bin_str}");
         background-repeat: repeat !important;
-        background-size: 500px !important; 
+        background-size: 100px !important; 
         background-attachment: fixed;
     """
 else:
@@ -59,9 +58,7 @@ else:
 
 st.markdown(f"""
     <style>
-    .stApp {{
-        {bg_style}
-    }}
+    .stApp {{ {bg_style} }}
     
     .section-header {{
         background-color: #003366;
@@ -86,14 +83,12 @@ st.markdown(f"""
         border: 2px solid #003366;
     }}
 
-    /* Inputs Dourados */
     .stTextInput>div>div>input, .stSelectbox>div>div>div, .stTextArea>div>div>textarea {{
         background-color: #fff9e6 !important;
         color: #003366 !important;
         border: 1px solid #FFD700 !important;
     }}
 
-    /* BOTÃO ENVIAR - CSS REFORÇADO */
     div.stButton > button {{
         width: 100% !important;
         background: linear-gradient(135deg, #003366 0%, #004a99 100%) !important;
@@ -112,14 +107,31 @@ st.markdown(f"""
         border: 2px solid #003366 !important;
     }}
 
+    /* Estilo para o link de voltar que parece um botão */
+    .btn-voltar {{
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #003366;
+        color: #FFD700 !important;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: bold;
+        text-align: center;
+        margin-top: 15px;
+        border: 1px solid #FFD700;
+    }}
+    .btn-voltar:hover {{
+        background-color: #FFD700;
+        color: #003366 !important;
+    }}
+
     label {{ color: #003366 !important; font-weight: bold !important; }}
     </style>
     """, unsafe_allow_html=True)
 
-# --- CABEÇALHO (IMAGEM REDUZIDA PELA METADE) ---
+# --- CABEÇALHO ---
 c_logo1, c_logo2, c_logo3 = st.columns([1.5, 2, 1.5])
 with c_logo2:
-    # Reduzindo o tamanho da imagem da escola no topo
     st.image("https://www.vklassociacao.com.br/images/EscolaDeFutebol/Escola_de_Futebol.jpeg", width=300)
 
 st.markdown("<h1 style='text-align: center; color: #003366;'>⚽ Cadastro para Matrícula</h1>", unsafe_allow_html=True)
@@ -135,15 +147,10 @@ categoria_atual = calcular_categoria(nasc_aluno)
 st.markdown(f'<div class="cat-box">CATEGORIA SUGERIDA: {categoria_atual}</div>', unsafe_allow_html=True)
 
 # --- FORMULÁRIO ---
-with st.form("form_vkl_v4"):
-    
+with st.form("form_vkl_final"):
     st.markdown('<div class="section-header">📍 2. UNIDADE E ORIGEM</div>', unsafe_allow_html=True)
-    col_u1, col_u2 = st.columns(2)
-    with col_u1:
-        unidade = st.selectbox("Selecione a Unidade (Polo)*", ["Guaratuba", "Garuva", "Itapoá"])
-    with col_u2:
-        origem = st.selectbox("Como conheceu a nossa escola?", 
-                             ["Indicação", "Facebook", "Instagram", "Pesquisa na Web", "Outros"])
+    unidade = st.selectbox("Selecione a Unidade (Polo)*", ["Guaratuba", "Garuva", "Itapoá"])
+    origem = st.selectbox("Como conheceu a nossa escola?", ["Indicação", "Facebook", "Instagram", "Pesquisa na Web", "Outros"])
 
     st.markdown('<div class="section-header">🏃 3. DADOS DO ATLETA</div>', unsafe_allow_html=True)
     nome_aluno = st.text_input("Nome Completo do Aluno*")
@@ -154,23 +161,19 @@ with st.form("form_vkl_v4"):
         posicao = st.selectbox("Posição", ["A definir", "Goleiro", "Fixo/Zagueiro", "Ala", "Pivô/Atacante"])
 
     st.markdown('<div class="section-header">👨‍👩‍👦 4. DADOS DOS PAIS</div>', unsafe_allow_html=True)
-    col_p1, col_p2 = st.columns(2)
-    with col_p1:
-        nome_pai = st.text_input("Nome do Pai")
-        tel_pai = st.text_input("Telefone do Pai")
-    with col_p2:
-        nome_mae = st.text_input("Nome da Mãe")
-        tel_mae = st.text_input("Telefone da Mãe")
+    nome_pai = st.text_input("Nome do Pai")
+    tel_pai = st.text_input("Telefone do Pai")
+    nome_mae = st.text_input("Nome da Mãe")
+    tel_mae = st.text_input("Telefone da Mãe")
 
     st.markdown('<div class="section-header">💰 5. RESPONSÁVEL FINANCEIRO</div>', unsafe_allow_html=True)
     res_fin_nome = st.text_input("Nome Completo do Responsável*")
-    col_f1, col_f2, col_f3 = st.columns(3)
+    col_f1, col_f2 = st.columns(2)
     with col_f1:
         res_fin_cpf = st.text_input("CPF do Responsável*")
     with col_f2:
         res_fin_tel = st.text_input("WhatsApp do Responsável*")
-    with col_f3:
-        parentesco = st.selectbox("Parentesco*", ["Pai", "Mãe", "Avô/Avó", "Tio/Tia", "Outro"])
+    parentesco = st.selectbox("Parentesco*", ["Pai", "Mãe", "Avô/Avó", "Tio/Tia", "Outro"])
 
     st.markdown('<div class="section-header">📋 6. SAÚDE E TERMOS</div>', unsafe_allow_html=True)
     saude_obs = st.text_area("Restrições médicas/Alergias (Opcional)")
@@ -191,5 +194,14 @@ with st.form("form_vkl_v4"):
         if erros:
             for e in erros: st.error(f"❌ {e}")
         else:
-            st.success(f"✅ Sucesso! Inscrição enviada. Bem-vindos à família VKL!")
+            st.success(f"✅ Sucesso! Inscrição de {nome_aluno} enviada. Bem-vindos à família VKL!")
             st.balloons()
+            
+            # BOTÃO DE RETORNO APÓS O SUCESSO
+            st.markdown("""
+                <div style='text-align: center;'>
+                    <a href='https://www.vklassociacao.com.br' class='btn-voltar'>
+                        🏠 Voltar para a Página Principal da VKL
+                    </a>
+                </div>
+            """, unsafe_allow_html=True)
