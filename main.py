@@ -30,7 +30,7 @@ st.markdown(f"""
         margin-bottom: 25px;
     }}
     .title-box {{
-        background-color: #003366;
+        background-color: #FFFFFF;
         padding: 15px 25px;
         border-radius: 8px;
         border-bottom: 4px solid #FFD700;
