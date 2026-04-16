@@ -22,7 +22,7 @@ st.markdown(f"""
     <style>
     .stApp {{ background: linear-gradient(rgba(255, 255, 255, 0.94), rgba(255, 255, 255, 0.94)), url("data:image/png;base64,{bin_str if bin_str else ''}"); background-attachment: fixed; }}
     
-    /* Layout do Cabeçalho: Imagem fora, Título no Retângulo */
+    /* Layout do Cabeçalho: Imagem fora, Título no Retângulo Azul */
     .header-row {{
         display: flex;
         align-items: center;
@@ -30,14 +30,14 @@ st.markdown(f"""
         margin-bottom: 25px;
     }}
     .title-box {{
-        background-color: #003366 ;
+        background-color: #003366;
         padding: 15px 25px;
         border-radius: 8px;
         border-bottom: 4px solid #FFD700;
         flex-grow: 1;
     }}
     .header-title {{
-        color: #FFFFFF;
+        color: #FFD700 !important; /* Letra Dourada */
         font-family: 'Arial Black', sans-serif;
         font-size: 24px;
         margin: 0;
@@ -70,16 +70,6 @@ st.markdown(f"""
         font-weight: bold; border: 2px solid #003366; transition: 0.3s; margin-top: 15px;
     }}
     .btn-home:hover {{ background-color: #003366; color: #FFD700; }}
-
-    /* Animação das Bolas */
-    @keyframes dropBall {{
-        0% {{ transform: translateY(-100vh) rotate(0deg); opacity: 1; }}
-        30% {{ transform: translateY(0) rotate(180deg); }}
-        45% {{ transform: translateY(-120px) rotate(270deg); }}
-        60% {{ transform: translateY(0) rotate(360deg); }}
-        100% {{ transform: translateY(100vh) translateX(150px) rotate(720deg); opacity: 0; }}
-    }}
-    .soccer-ball {{ position: fixed; top: -50px; font-size: 35px; z-index: 9999; animation: dropBall 2.5s ease-in forwards; }}
     </style>
     """, unsafe_allow_html=True)
 
@@ -98,12 +88,12 @@ st.markdown('<div class="section-header">🔐 IDENTIFICAÇÃO E UNIDADE</div>', 
 c1, c2, c3 = st.columns(3)
 with c1: login_user = st.text_input("Login (Único)*")
 with c2: senha_user = st.text_input("Senha*", type="password")
-with c3: unidade_vkl = st.selectbox("Unidade*", ["--- Selecione ---", "Guaratuba", "Garuva", "Itapoá"])
+with c3: unidade_vkl = st.selectbox("Unidade Pretendida*", ["--- Selecione ---", "Guaratuba", "Garuva", "Itapoá"])
 
 c4, c5 = st.columns([2, 1])
 with c4: 
     # Data de nascimento com limite mínimo em 1960
-    nasc_aluno = st.date_input("Data de Nascimento*", 
+    nasc_aluno = st.date_input("Data de Nascimento do Aluno*", 
                                value=date(2015, 1, 1), 
                                min_value=date(1960, 1, 1), 
                                format="DD/MM/YYYY")
@@ -119,19 +109,19 @@ with c5:
     turma = calc_cat(nasc_aluno)
     st.markdown(f'<div class="cat-box"><span class="cat-text">Turma sugerida</span><span class="cat-val">{turma}</span></div>', unsafe_allow_html=True)
 
-# --- FORMULÁRIO Master ---
-with st.form("vkl_final_form"):
+# --- FORMULÁRIO ---
+with st.form("vkl_matricula_form"):
     st.markdown('<div class="section-header">🏃 DADOS DO ATLETA</div>', unsafe_allow_html=True)
     nome_aluno = st.text_input("Nome Completo do Aluno*")
     a1, a2, a3 = st.columns(3)
-    with a1: cpf_aluno = st.text_input("CPF (Aluno/Resp)*")
-    with a2: cel_aluno = st.text_input("Celular Aluno")
-    with a3: sexo = st.selectbox("Sexo*", ["--- Selecione ---", "Masculino", "Feminino"])
+    with a1: cpf_aluno = st.text_input("CPF (Aluno ou Responsável)*")
+    with a2: cel_aluno = st.text_input("Celular do Aluno (Opcional)")
+    with a3: sexo = st.selectbox("Sexo Biológico*", ["--- Selecione ---", "Masculino", "Feminino"])
 
     t1, t2, t3 = st.columns(3)
-    with t1: pos = st.selectbox("Posição*", ["--- Selecione ---", "Goleiro", "Fixo/Zagueiro", "Ala", "Pivô", "A definir"])
+    with t1: pos = st.selectbox("Posição de Preferência*", ["--- Selecione ---", "Goleiro", "Fixo/Zagueiro", "Ala", "Pivô", "A definir"])
     with t2: lat = st.selectbox("Lateralidade*", ["--- Selecione ---", "Destro", "Canhoto", "Ambidestro"])
-    with t3: hor = st.selectbox("Horário*", ["--- Selecione ---", "Manhã", "Tarde", "Noite"])
+    with t3: hor = st.selectbox("Melhor Horário*", ["--- Selecione ---", "Manhã", "Tarde", "Noite"])
 
     st.markdown('<div class="section-header">🏠 ENDEREÇO</div>', unsafe_allow_html=True)
     rua = st.text_input("Rua/Avenida*")
@@ -146,29 +136,27 @@ with st.form("vkl_final_form"):
 
     st.markdown('<div class="section-header">👪 FILIAÇÃO E FINANCEIRO</div>', unsafe_allow_html=True)
     f1, f2 = st.columns(2)
-    with f1: st.text_input("Nome do Pai"); st.text_input("WhatsApp Pai")
-    with f2: st.text_input("Nome da Mãe"); st.text_input("WhatsApp Mãe")
+    with f1: st.text_input("Nome Completo do Pai"); st.text_input("WhatsApp Pai")
+    with f2: st.text_input("Nome Completo da Mãe"); st.text_input("WhatsApp Mãe")
     
     res_nome = st.text_input("Nome do Responsável Financeiro*")
     r1, r2, r3 = st.columns(3)
-    with r1: res_cpf = st.text_input("CPF Resp*")
-    with r2: res_cel = st.text_input("Cel Resp*")
+    with r1: res_cpf = st.text_input("CPF do Responsável*")
+    with r2: res_cel = st.text_input("Celular do Responsável*")
     with r3: res_par = st.selectbox("Parentesco*", ["--- Selecione ---", "Pai/Mãe", "Avô/ã", "Tio/a", "Outro"])
 
     st.markdown('<div class="section-header">📝 OBSERVAÇÕES E ARQUIVOS</div>', unsafe_allow_html=True)
-    st.text_area("Observações Médicas/Gerais (Máx. 1000 caracteres)", height=80)
-    st.file_uploader("Documentos/Foto Atleta", accept_multiple_files=True)
+    st.text_area("Observações Médicas ou Gerais (Máx. 1000 caracteres)", height=80)
+    st.file_uploader("Upload de Documentos ou Foto do Atleta (RG/CPF)", accept_multiple_files=True)
     
     aceite1 = st.checkbox("Declaro que o aluno goza de plena saúde física e mental para a prática de futebol.*")
     aceite2 = st.checkbox("Autorizo o uso de imagem e voz do aluno para divulgação da Escola VKL.*")
 
     if st.form_submit_button("CONCLUIR MATRÍCULA"):
-        if "--- Selecione ---" in [unidade_vkl, sexo, pos, lat, hor, est, res_par] or not nome_aluno:
-            st.error("❌ Preencha todos os campos obrigatórios e selecione as opções.")
+        if "--- Selecione ---" in [unidade_vkl, sexo, pos, lat, hor, est, res_par] or not nome_aluno or not res_nome:
+            st.error("❌ Por favor, preencha todos os campos obrigatórios e selecione as opções.")
         else:
-            # ANIMAÇÃO DAS BOLAS
-            for i in range(12):
-                st.markdown(f'<div class="soccer-ball" style="left: {i*8}%; animation-delay: {i*0.15}s">⚽</div>', unsafe_allow_html=True)
-            
+            # SUCESSO COM BALÕES ORIGINAIS
             st.success(f"✅ {nome_aluno}, Bem-vindos à Família VKL! Matrícula realizada com sucesso na turma {turma}.")
+            st.balloons()
             st.markdown(f'<a href="https://www.vklassociacao.com.br" target="_self" class="btn-home">RETORNAR À HOME VKL</a>', unsafe_allow_html=True)
