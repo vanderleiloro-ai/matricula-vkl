@@ -198,7 +198,7 @@ with st.form("form_vkl_final_v42"):
         if erros:
             for e in erros: st.error(f"❌ {e}")
         else:
-            st.success(f"✅ Sucesso! Inscrição de {nome_aluno} enviada.")
+            st.success(f"✅ Sucesso! Inscrição de {nome_aluno} enviada. Bem-vindos à família VKL!")
             st.balloons()
             
             # BOTÃO DE RETORNO (USA TARGET _SELF PARA FECHAR O FORM E ABRIR O SITE NA MESMA ABA)
