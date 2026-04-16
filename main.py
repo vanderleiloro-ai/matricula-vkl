@@ -7,7 +7,7 @@ import base64
 # Configuração da Página
 st.set_page_config(page_title="Matrícula VKL", page_icon="⚽", layout="centered")
 
-# --- FUNÇÃO PARA CARREGAR IMAGEM DE FUNDO (BASE64) ---
+# --- FUNÇÃO PARA CARREGAR IMAGEM DE FUNDO (LOGO VKL) ---
 def get_base64_img(url):
     try:
         response = requests.get(url)
@@ -44,13 +44,13 @@ def calcular_categoria(nascimento):
     elif idade_referencia <= 15: return "Sub-15"
     else: return "Sub-17 / Adulto"
 
-# --- ESTILIZAÇÃO ---
+# --- ESTILIZAÇÃO CUSTOMIZADA (CSS) ---
 if bin_str:
     bg_style = f"""
         background: linear-gradient(rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.88)), 
                     url("data:image/png;base64,{bin_str}");
         background-repeat: repeat !important;
-        background-size: 450px !important; 
+        background-size: 100px !important; 
         background-attachment: fixed;
     """
 else:
@@ -59,76 +59,32 @@ else:
 st.markdown(f"""
     <style>
     .stApp {{ {bg_style} }}
-    
     .section-header {{
-        background-color: #003366;
-        color: #ffffff;
-        padding: 12px 15px;
-        border-radius: 8px;
-        font-weight: bold;
-        margin-top: 20px;
-        margin-bottom: 10px;
-        border-left: 6px solid #FFD700;
-        font-size: 18px;
+        background-color: #003366; color: #ffffff; padding: 12px 15px;
+        border-radius: 8px; font-weight: bold; margin-top: 20px;
+        margin-bottom: 10px; border-left: 6px solid #FFD700; font-size: 18px;
     }}
-
     .cat-box {{
-        background-color: #FFD700;
-        color: #003366;
-        padding: 15px;
-        border-radius: 10px;
-        text-align: center;
-        font-weight: bold;
-        font-size: 22px;
-        border: 2px solid #003366;
+        background-color: #FFD700; color: #003366; padding: 15px;
+        border-radius: 10px; text-align: center; font-weight: bold;
+        font-size: 22px; border: 2px solid #003366;
     }}
-
+    /* Estilo dos Inputs */
     .stTextInput>div>div>input, .stSelectbox>div>div>div, .stTextArea>div>div>textarea {{
-        background-color: #fff9e6 !important;
-        color: #003366 !important;
+        background-color: #fff9e6 !important; color: #003366 !important;
         border: 1px solid #FFD700 !important;
     }}
-
-    /* BOTÃO ENVIAR - ATUALIZADO COM SELETOR DE TESTID PARA FUNCIONAR O HOVER */
+    /* Botão Enviar */
     div[data-testid="stFormSubmitButton"] > button {{
-        width: 100% !important;
-        background: linear-gradient(135deg, #003366 0%, #004a99 100%) !important;
-        color: #FFD700 !important;
-        height: 55px !important;
-        font-size: 22px !important;
-        font-weight: bold !important;
-        border: 2px solid #FFD700 !important;
-        border-radius: 12px !important;
-        transition: 0.3s ease !important;
+        width: 100% !important; background: linear-gradient(135deg, #003366 0%, #004a99 100%) !important;
+        color: #FFD700 !important; height: 55px !important; font-size: 22px !important;
+        font-weight: bold !important; border: 2px solid #FFD700 !important;
+        border-radius: 12px !important; transition: 0.3s ease !important;
     }}
-
     div[data-testid="stFormSubmitButton"] > button:hover {{
-        background: #FFD700 !important;
-        color: #003366 !important;
+        background: #FFD700 !important; color: #003366 !important;
         border: 2px solid #003366 !important;
-        box-shadow: 0px 4px 12px rgba(0,0,0,0.2) !important;
     }}
-
-    /* Botão de Voltar para a mesma aba */
-    .btn-voltar {{
-        display: inline-block;
-        padding: 12px 25px;
-        background-color: #003366;
-        color: #FFD700 !important;
-        text-decoration: none;
-        border-radius: 8px;
-        font-weight: bold;
-        text-align: center;
-        margin-top: 20px;
-        border: 2px solid #FFD700;
-        transition: 0.3s;
-    }}
-    .btn-voltar:hover {{
-        background-color: #FFD700;
-        color: #003366 !important;
-        border: 2px solid #003366;
-    }}
-
     label {{ color: #003366 !important; font-weight: bold !important; }}
     </style>
     """, unsafe_allow_html=True)
@@ -138,90 +94,76 @@ c_logo1, c_logo2, c_logo3 = st.columns([1.5, 2, 1.5])
 with c_logo2:
     st.image("https://www.vklassociacao.com.br/images/EscolaDeFutebol/Escola_de_Futebol.jpeg", width=300)
 
-st.markdown("<h1 style='text-align: center; color: #003366;'>⚽ Cadastro para Matrícula</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center; color: #003366;'>⚽ Matrícula Escola de Futebol VKL</h1>", unsafe_allow_html=True)
 
-# --- DATA E CATEGORIA ---
-st.markdown('<div class="section-header">📅 1. INFORME A DATA DE NASCIMENTO</div>', unsafe_allow_html=True)
-nasc_aluno = st.date_input("Data de Nascimento do Aluno*", 
-                           value=date(2015, 1, 1),
-                           format="DD/MM/YYYY", 
-                           min_value=date(2005, 1, 1))
-
-categoria_atual = calcular_categoria(nasc_aluno)
-st.markdown(f'<div class="cat-box">CATEGORIA SUGERIDA: {categoria_atual}</div>', unsafe_allow_html=True)
-
-# --- FORMULÁRIO ---
-with st.form("form_vkl_final_v42"):
-    # --- NOVO: IDENTIFICAÇÃO ÚNICA (LOGIN E SENHA) ---
-    st.markdown('<div class="section-header">🔑 1. ACESSO DO ALUNO (INDIVIDUAL)</div>', unsafe_allow_html=True)
-    st.info("Para pais com mais de um filho, utilize um Login diferente para cada atleta.")
+# --- INÍCIO DO FORMULÁRIO ---
+with st.form("form_vkl_completo"):
     
-    col_login, col_senha = st.columns(2)
-    with col_login:
-        login_usuario = st.text_input("Crie um Nome de Usuário (Login)*", 
-                                     placeholder="Ex: joao.silva",
-                                     help="Não utilize espaços ou acentos.")
-    with col_senha:
-        senha_usuario = st.text_input("Crie uma Senha*", 
-                                     type="password",
-                                     placeholder="Mínimo 6 caracteres")
+    # --- 1. ACESSO INDIVIDUAL ---
+    st.markdown('<div class="section-header">🔑 1. ACESSO DO ALUNO (LOGIN ÚNICO)</div>', unsafe_allow_html=True)
+    st.info("Utilize um Login exclusivo para cada filho matriculado.")
+    
+    col_l, col_s = st.columns(2)
+    with col_l:
+        login_usuario = st.text_input("Nome de Usuário (Login)*", placeholder="ex: pedro.silva")
+    with col_s:
+        senha_usuario = st.text_input("Criar Senha*", type="password")
 
-    # --- ABAIXO SEGUE O RESTANTE DO SEU CÓDIGO (DATA DE NASCIMENTO, ETC) ---
-    st.markdown('<div class="section-header">📅 2. INFORME A DATA DE NASCIMENTO</div>', unsafe_allow_html=True)
-    st.markdown('<div class="section-header">📍 2. UNIDADE E ORIGEM</div>', unsafe_allow_html=True)
-    unidade = st.selectbox("Selecione a Unidade (Polo)*", ["Guaratuba", "Garuva", "Itapoá"])
-    origem = st.selectbox("Como conheceu a nossa escola?", ["Indicação", "Facebook", "Instagram", "Pesquisa na Web", "Outros"])
-
-    st.markdown('<div class="section-header">🏃 3. DADOS DO ATLETA</div>', unsafe_allow_html=True)
+    # --- 2. DADOS DO ALUNO E CATEGORIA ---
+    st.markdown('<div class="section-header">📅 2. DADOS DO ALUNO E NASCIMENTO</div>', unsafe_allow_html=True)
     nome_aluno = st.text_input("Nome Completo do Aluno*")
-    col_at1, col_at2 = st.columns(2)
-    with col_at1:
+    
+    col_n, col_g = st.columns(2)
+    with col_n:
+        nasc_aluno = st.date_input("Data de Nascimento*", value=date(2015, 1, 1), format="DD/MM/YYYY")
+    with col_g:
         genero = st.selectbox("Gênero", ["Masculino", "Feminino"])
-    with col_at2:
-        posicao = st.selectbox("Posição", ["A definir", "Goleiro", "Fixo/Zagueiro", "Ala", "Pivô/Atacante"])
+    
+    categoria_atual = calcular_categoria(nasc_aluno)
+    st.markdown(f'<div class="cat-box">CATEGORIA SUGERIDA: {categoria_atual}</div>', unsafe_allow_html=True)
 
-    st.markdown('<div class="section-header">👨‍👩‍👦 4. DADOS DOS PAIS</div>', unsafe_allow_html=True)
-    nome_pai = st.text_input("Nome do Pai")
-    tel_pai = st.text_input("Telefone do Pai")
-    nome_mae = st.text_input("Nome da Mãe")
-    tel_mae = st.text_input("Telefone da Mãe")
+    # --- 3. UNIDADE E POSIÇÃO ---
+    st.markdown('<div class="section-header">📍 3. UNIDADE E CAMPO</div>', unsafe_allow_html=True)
+    col_u, col_p = st.columns(2)
+    with col_u:
+        unidade = st.selectbox("Selecione a Unidade (Polo)*", ["Guaratuba", "Garuva", "Itapoá"])
+    with col_p:
+        posicao = st.selectbox("Posição de Preferência", ["A definir", "Goleiro", "Fixo/Zagueiro", "Ala", "Pivô/Atacante"])
 
-    st.markdown('<div class="section-header">💰 5. RESPONSÁVEL FINANCEIRO</div>', unsafe_allow_html=True)
-    res_fin_nome = st.text_input("Nome Completo do Responsável*")
-    col_f1, col_f2 = st.columns(2)
-    with col_f1:
-        res_fin_cpf = st.text_input("CPF do Responsável*")
-    with col_f2:
-        res_fin_tel = st.text_input("WhatsApp do Responsável*")
-    parentesco = st.selectbox("Parentesco*", ["Pai", "Mãe", "Avô/Avó", "Tio/Tia", "Outro"])
+    # --- 4. RESPONSÁVEL FINANCEIRO ---
+    st.markdown('<div class="section-header">💰 4. RESPONSÁVEL FINANCEIRO</div>', unsafe_allow_html=True)
+    res_nome = st.text_input("Nome Completo do Responsável*")
+    
+    col_c, col_w = st.columns(2)
+    with col_c:
+        res_cpf = st.text_input("CPF do Responsável*")
+    with col_w:
+        res_tel = st.text_input("WhatsApp (DDD + Número)*")
 
-    st.markdown('<div class="section-header">📋 6. SAÚDE E TERMOS</div>', unsafe_allow_html=True)
-    saude_obs = st.text_area("Restrições médicas/Alergias (Opcional)")
-    aceite_imagem = st.checkbox("Autorizo o uso de imagem do aluno para divulgação VKL.*")
-    aceite_saude = st.checkbox("Declaro que o aluno está apto para esportes.*")
-
-    enviar = st.form_submit_button("ENVIAR MATRÍCULA AGORA")
+    # --- BOTÃO DE ENVIO ---
+    enviar = st.form_submit_button("CONCLUIR MATRÍCULA")
 
     if enviar:
-        erros = []
-        if not nome_aluno or not res_fin_nome or not res_fin_cpf or not res_fin_tel:
-            erros.append("Preencha todos os campos obrigatórios (*).")
-        if not validar_cpf(res_fin_cpf):
-            erros.append("O CPF informado é inválido.")
-        if not validar_telefone(res_fin_tel):
-            erros.append("O telefone do Responsável é inválido.")
-        
-        if erros:
-            for e in erros: st.error(f"❌ {e}")
+        if not login_usuario or not senha_usuario or not nome_aluno or not res_nome or not res_cpf or not res_tel:
+            st.error("❌ Preencha todos os campos obrigatórios (*).")
+        elif not validar_cpf(res_cpf):
+            st.error("❌ O CPF informado é inválido.")
         else:
-            st.success(f"✅ Sucesso! Inscrição de {nome_aluno} enviada. Bem-vindos à família VKL!")
-            st.balloons()
+            # URL do seu Google Forms (ajustar conforme novos campos forem adicionados)
+            url_forms = "https://docs.google.com/forms/d/e/1FAIpQLSdyEy4VB4jQTzYdovJkXJUa_b4Y8rjlvbn5a1GthNmOzKYLRg/formResponse"
             
-            # BOTÃO DE RETORNO (USA TARGET _SELF PARA FECHAR O FORM E ABRIR O SITE NA MESMA ABA)
-            st.markdown("""
-                <div style='text-align: center;'>
-                    <a href='https://www.vklassociacao.com.br' target='_self' class='btn-voltar'>
-                        🏠 Voltar para a Home VKL
-                    </a>
-                </div>
-            """, unsafe_allow_html=True)
+            # ATENÇÃO: Os 'entry.XXXX' abaixo precisam ser atualizados com o seu novo link preenchido
+            dados_matricula = {
+                "entry.666952651": nome_aluno,       # Nome do Aluno
+                "entry.1010511222": unidade,         # Unidade
+                "entry.1377162592": categoria_atual, # Categoria
+                "entry.162643904": genero,           # Gênero
+                # Adicione aqui os novos códigos para Login e Senha quando gerar o link
+            }
+
+            try:
+                requests.post(url_forms, data=dados_matricula)
+                st.success(f"✅ Matrícula de {nome_aluno} realizada com sucesso!")
+                st.balloons()
+            except:
+                st.error("Erro técnico ao salvar. Tente novamente em instantes.")
